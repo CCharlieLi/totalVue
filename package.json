@@ -1,0 +1,39 @@
+{
+  "name": "totalVue",
+  "version": "0.0.1",
+  "description": "combine total.js with vue,js",
+  "main": "debug.js",
+  "dependencies": {
+    "css-loader": "^0.15.6",
+    "gulp": "^3.9.0",
+    "html-loader": "^0.3.0",
+    "img-loader": "^1.2.0",
+    "style-loader": "^0.12.3",
+    "total.js": "^1.9.0",
+    "vue": "^0.12.9",
+    "vue-loader": "^2.1.1",
+    "webpack": "^1.11.0",
+    "yuicompressor": "^2.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "gulp && node debug.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CCharlieLi/totalVue"
+  },
+  "keywords": [
+    "total.js",
+    "Vue.js",
+    "node",
+    "gulp",
+    "webpack"
+  ],
+  "author": "CCharlieLi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CCharlieLi/totalVue/issues"
+  },
+  "homepage": "https://github.com/CCharlieLi/totalVue"
+}
