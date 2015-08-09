@@ -15,7 +15,9 @@
     "webpack": "^1.11.0",
     "yuicompressor": "^2.4.8"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-uglify": "^1.2.0"
+  },
   "scripts": {
     "test": "gulp && node debug.js"
   },
