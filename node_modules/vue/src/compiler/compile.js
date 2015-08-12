@@ -148,18 +148,13 @@ exports.compileAndLinkProps = function (vm, el, props) {
  *
  * If this is a fragment instance, we only need to compile 1.
  *
- * This function does compile and link at the same time,
- * since root linkers can not be reused. It returns the
- * unlink function for potential context directives on the
- * container.
- *
  * @param {Vue} vm
  * @param {Element} el
  * @param {Object} options
  * @return {Function}
  */
 
-exports.compileAndLinkRoot = function (vm, el, options) {
+exports.compileRoot = function (el, options) {
   var containerAttrs = options._containerAttrs
   var replacerAttrs = options._replacerAttrs
   var contextLinkFn, replacerLinkFn
@@ -184,23 +179,25 @@ exports.compileAndLinkRoot = function (vm, el, options) {
     }
   }
 
-  // link context scope dirs
-  var context = vm._context
-  var contextDirs
-  if (context && contextLinkFn) {
-    contextDirs = linkAndCapture(function () {
-      contextLinkFn(context, el)
-    }, context)
+  return function rootLinkFn (vm, el) {
+    // link context scope dirs
+    var context = vm._context
+    var contextDirs
+    if (context && contextLinkFn) {
+      contextDirs = linkAndCapture(function () {
+        contextLinkFn(context, el)
+      }, context)
+    }
+
+    // link self
+    var selfDirs = linkAndCapture(function () {
+      if (replacerLinkFn) replacerLinkFn(vm, el)
+    }, vm)
+
+    // return the unlink function that tearsdown context
+    // container directives.
+    return makeUnlinkFn(vm, selfDirs, context, contextDirs)
   }
-
-  // link self
-  var selfDirs = linkAndCapture(function () {
-    if (replacerLinkFn) replacerLinkFn(vm, el)
-  }, vm)
-
-  // return the unlink function that tearsdown context
-  // container directives.
-  return makeUnlinkFn(vm, selfDirs, context, contextDirs)
 }
 
 /**
@@ -232,6 +229,14 @@ function compileNode (node, options) {
  */
 
 function compileElement (el, options) {
+  // preprocess textareas.
+  // textarea treats its text content as the initial value.
+  // just bind it as a v-attr directive for value.
+  if (el.tagName === 'TEXTAREA') {
+    if (textParser.parse(el.value)) {
+      el.setAttribute('value', el.value)
+    }
+  }
   var linkFn
   var hasAttrs = el.hasAttributes()
   // check terminal directives (repeat & if)
@@ -249,16 +254,6 @@ function compileElement (el, options) {
   // normal directives
   if (!linkFn && hasAttrs) {
     linkFn = compileDirectives(el.attributes, options)
-  }
-  // if the element is a textarea, we need to interpolate
-  // its content on initial render.
-  if (el.tagName === 'TEXTAREA') {
-    var realLinkFn = linkFn
-    linkFn = function (vm, el) {
-      el.value = vm.$interpolate(el.value)
-      if (realLinkFn) realLinkFn(vm, el)
-    }
-    linkFn.terminal = true
   }
   return linkFn
 }
