@@ -8,6 +8,7 @@
     "gulp": "^3.9.0",
     "html-loader": "^0.3.0",
     "img-loader": "^1.2.0",
+    "semi": "^4.0.3",
     "style-loader": "^0.12.3",
     "total.js": "^1.9.0",
     "vue": "^0.12.9",

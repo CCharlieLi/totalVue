@@ -1,3 +1,8 @@
+# 1.2.1
+
+* Fixes an issue where rem measurements were being quoted alongside the font
+  family name.
+
 # 1.2.0
 
 * Adds support for a configuration object; some optimisations can be disabled.
