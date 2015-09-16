@@ -1,4 +1,4 @@
-<sryle></sryle>
+<style></style>
 
 <template>
 	<component is="{{main_view}}"
