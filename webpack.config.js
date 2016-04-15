@@ -1,4 +1,3 @@
-
 module.exports = {
   //  login.js
   entry: "./views/app.js",

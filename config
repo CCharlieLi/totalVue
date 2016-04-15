@@ -1,6 +1,6 @@
-name                            : totalVue
+name                            : total.js
 author                          : You company name
-version                         : 0.0.1
+version                         : 1.01
 secret                          : secret-key-for-web
 
 // Mail settings
